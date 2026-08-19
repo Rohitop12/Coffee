@@ -17,11 +17,22 @@ import {
   useMotionValueEvent,
 } from 'framer-motion';
 
+
 export default function BrewGuide() {
+
+  // ============================================================
+  // STATE
+  // ============================================================
+
   const [selectedMethod, setSelectedMethod] = useState('Pour Over');
   const [activeStep, setActiveStep] = useState(0);
 
   const stepsSectionRef = useRef(null);
+
+
+  // ============================================================
+  // BREW METHODS
+  // ============================================================
 
   const methods = [
     'Pour Over',
@@ -29,13 +40,17 @@ export default function BrewGuide() {
     'Espresso',
   ];
 
+
+  // ============================================================
+  // CURRENT RECIPE
+  // ============================================================
+
   const recipe = brewRatios[selectedMethod];
 
-  /*
-  |--------------------------------------------------------------------------
-  | BREWING STEPS
-  |--------------------------------------------------------------------------
-  */
+
+  // ============================================================
+  // BREWING STEPS
+  // ============================================================
 
   const steps = [
     {
@@ -44,12 +59,14 @@ export default function BrewGuide() {
       description:
         'Choose the grind size that matches your brew method. Consistency matters more than perfection.',
     },
+
     {
       number: '02',
       title: 'Brew',
       description:
         'Follow a simple ratio and timing guide. Pour smoothly to extract even, rich flavor.',
     },
+
     {
       number: '03',
       title: 'Enjoy',
@@ -58,27 +75,35 @@ export default function BrewGuide() {
     },
   ];
 
-  /*
-  |--------------------------------------------------------------------------
-  | SCROLL PROGRESS
-  |--------------------------------------------------------------------------
-  */
+
+  // ============================================================
+  // SCROLL PROGRESS
+  // ============================================================
 
   const { scrollYProgress } = useScroll({
     target: stepsSectionRef,
     offset: ['start start', 'end end'],
   });
 
-  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
-    const index = Math.min(
-      steps.length - 1,
-      Math.floor(progress * steps.length)
-    );
 
-    setActiveStep(index);
-  });
+  useMotionValueEvent(
+    scrollYProgress,
+    'change',
+    (progress) => {
+
+      const index = Math.min(
+        steps.length - 1,
+        Math.floor(progress * steps.length)
+      );
+
+      setActiveStep(index);
+
+    }
+  );
+
 
   return (
+
     <section
       id="brew-guide"
       className="
@@ -89,9 +114,10 @@ export default function BrewGuide() {
       "
     >
 
-      {/* ============================================================
+
+      {/* ==========================================================
           HEADER
-      ============================================================ */}
+      ========================================================== */}
 
       <div
         className="
@@ -110,17 +136,21 @@ export default function BrewGuide() {
             opacity: 0,
             y: 24,
           }}
+
           whileInView={{
             opacity: 1,
             y: 0,
           }}
+
           viewport={{
             once: true,
             margin: '-50px',
           }}
+
           transition={{
             duration: 0.6,
           }}
+
           className="
             text-center
             max-w-2xl
@@ -149,8 +179,15 @@ export default function BrewGuide() {
               mb-3
             "
           >
-            <span>Simple Rituals</span>
+
+            <Sparkles className="w-3.5 h-3.5" />
+
+            <span>
+              Simple Rituals
+            </span>
+
           </div>
+
 
           {/* Heading */}
 
@@ -167,6 +204,7 @@ export default function BrewGuide() {
           >
             Your coffee. Your ritual.
           </h2>
+
 
           {/* Description */}
 
@@ -187,9 +225,9 @@ export default function BrewGuide() {
       </div>
 
 
-      {/* ============================================================
+      {/* ==========================================================
           FULL WIDTH SCROLL STORY
-      ============================================================ */}
+      ========================================================== */}
 
       <div
         ref={stepsSectionRef}
@@ -199,7 +237,10 @@ export default function BrewGuide() {
         "
       >
 
-        {/* Sticky viewport */}
+
+        {/* ========================================================
+            STICKY VIEWPORT
+        ======================================================== */}
 
         <div
           className="
@@ -215,20 +256,23 @@ export default function BrewGuide() {
           "
         >
 
-          {/* ========================================================
-              BACKGROUND ANIMATION
-          ======================================================== */}
+
+          {/* ======================================================
+              BACKGROUND DECORATION
+          ====================================================== */}
 
           <motion.div
             animate={{
               scale: [1, 1.08, 1],
               rotate: [0, 3, 0],
             }}
+
             transition={{
               duration: 12,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
+
             className="
               absolute
               w-[500px]
@@ -239,24 +283,27 @@ export default function BrewGuide() {
               lg:h-[900px]
               rounded-full
               bg-brewed-cream-dark/50
+              pointer-events-none
             "
           />
 
 
-          {/* ========================================================
+          {/* ======================================================
               LEFT DECORATIVE BEAN
-          ======================================================== */}
+          ====================================================== */}
 
           <motion.div
             animate={{
               y: [-20, 20, -20],
               rotate: [-8, 8, -8],
             }}
+
             transition={{
               duration: 8,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
+
             className="
               absolute
               top-[15%]
@@ -268,24 +315,27 @@ export default function BrewGuide() {
               rotate-[-25deg]
               hidden
               sm:block
+              pointer-events-none
             "
           />
 
 
-          {/* ========================================================
+          {/* ======================================================
               RIGHT DECORATIVE BEAN
-          ======================================================== */}
+          ====================================================== */}
 
           <motion.div
             animate={{
               y: [20, -20, 20],
               rotate: [8, -8, 8],
             }}
+
             transition={{
               duration: 9,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
+
             className="
               absolute
               bottom-[15%]
@@ -297,13 +347,14 @@ export default function BrewGuide() {
               rotate-[20deg]
               hidden
               sm:block
+              pointer-events-none
             "
           />
 
 
-          {/* ========================================================
+          {/* ======================================================
               MAIN CONTENT
-          ======================================================== */}
+          ====================================================== */}
 
           <div
             className="
@@ -321,6 +372,10 @@ export default function BrewGuide() {
           >
 
             <AnimatePresence mode="wait">
+
+              {/* ==================================================
+                  STEP CARD
+              ================================================== */}
 
               <motion.div
                 key={activeStep}
@@ -366,9 +421,77 @@ export default function BrewGuide() {
                 "
               >
 
-                {/* ==================================================
+
+                {/* =================================================
+                    COFFEE IMAGE BACKGROUND
+                ================================================= */}
+
+                <motion.img
+                  src="/images/BREW BG1.png"
+                  alt=""
+                  aria-hidden="true"
+
+                  initial={{
+                    scale: 1.05,
+                    opacity: 0,
+                  }}
+
+                  animate={{
+                    scale: 1,
+                    opacity: 0.13,
+                  }}
+
+                  transition={{
+                    duration: 1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+
+                  className="
+                    absolute
+                    inset-0
+                    w-full
+                    h-full
+                    object-cover
+                    pointer-events-none
+                    select-none
+                  "
+                />
+
+
+                {/* =================================================
+                    CREAM OVERLAY
+                ================================================= */}
+
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    bg-brewed-cream/2
+                    pointer-events-none
+                  "
+                />
+
+
+                {/* =================================================
+                    SOFT GRADIENT
+                ================================================= */}
+
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    bg-gradient-to-br
+                    from-brewed-cream/0
+                    via-transparent
+                    to-brewed-cream/70
+                    pointer-events-none
+                  "
+                />
+
+
+                {/* =================================================
                     HUGE STEP NUMBER
-                ================================================== */}
+                ================================================= */}
 
                 <motion.div
                   initial={{
@@ -389,7 +512,7 @@ export default function BrewGuide() {
 
                   className="
                     absolute
-                    left-[-20px]
+                    left-[-50px]
                     sm:left-[-30px]
                     lg:left-[-50px]
                     top-[10%]
@@ -402,15 +525,16 @@ export default function BrewGuide() {
                     text-brewed-brown/[0.055]
                     select-none
                     pointer-events-none
+                    z-[2]
                   "
                 >
                   {steps[activeStep].number}
                 </motion.div>
 
 
-                {/* ==================================================
-                    CONTENT
-                ================================================== */}
+                {/* =================================================
+                    MAIN STEP CONTENT
+                ================================================= */}
 
                 <div
                   className="
@@ -425,7 +549,10 @@ export default function BrewGuide() {
                   "
                 >
 
-                  {/* Step label */}
+
+                  {/* ===============================================
+                      STEP LABEL
+                  =============================================== */}
 
                   <motion.div
                     initial={{
@@ -450,7 +577,8 @@ export default function BrewGuide() {
                       px-4
                       py-2
                       rounded-full
-                      bg-brewed-cream
+                      bg-brewed-cream/90
+                      backdrop-blur-sm
                       border
                       border-brewed-border
                       text-[10px]
@@ -460,6 +588,7 @@ export default function BrewGuide() {
                       tracking-[0.18em]
                       text-brewed-brown
                       mb-8
+                      shadow-sm
                     "
                   >
 
@@ -477,9 +606,9 @@ export default function BrewGuide() {
                   </motion.div>
 
 
-                  {/* ==================================================
+                  {/* ===============================================
                       TITLE
-                  ================================================== */}
+                  =============================================== */}
 
                   <motion.h3
                     initial={{
@@ -513,9 +642,9 @@ export default function BrewGuide() {
                   </motion.h3>
 
 
-                  {/* ==================================================
+                  {/* ===============================================
                       DESCRIPTION
-                  ================================================== */}
+                  =============================================== */}
 
                   <motion.p
                     initial={{
@@ -548,9 +677,9 @@ export default function BrewGuide() {
                   </motion.p>
 
 
-                  {/* ==================================================
+                  {/* ===============================================
                       PROGRESS
-                  ================================================== */}
+                  =============================================== */}
 
                   <div
                     className="
@@ -566,6 +695,7 @@ export default function BrewGuide() {
 
                       <motion.div
                         key={step.number}
+
                         animate={{
                           width:
                             index === activeStep
@@ -595,9 +725,9 @@ export default function BrewGuide() {
                   </div>
 
 
-                  {/* ==================================================
+                  {/* ===============================================
                       SCROLL HINT
-                  ================================================== */}
+                  =============================================== */}
 
                   {activeStep < steps.length - 1 && (
 
@@ -646,9 +776,9 @@ export default function BrewGuide() {
                 </div>
 
 
-                {/* ==================================================
+                {/* =================================================
                     ROTATING CIRCLE
-                ================================================== */}
+                ================================================= */}
 
                 <motion.div
                   animate={{
@@ -670,10 +800,25 @@ export default function BrewGuide() {
                     rounded-full
                     border
                     border-brewed-border/50
+                    z-[3]
+                    pointer-events-none
                   "
                 />
 
-                <div
+
+                {/* Circle Dot */}
+
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                  }}
+
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+
                   className="
                     absolute
                     right-8
@@ -682,6 +827,7 @@ export default function BrewGuide() {
                     h-3
                     rounded-full
                     bg-brewed-accent
+                    z-[4]
                   "
                 />
 
@@ -696,9 +842,9 @@ export default function BrewGuide() {
       </div>
 
 
-      {/* ============================================================
+      {/* ==========================================================
           INTERACTIVE BREW RATIO
-      ============================================================ */}
+      ========================================================== */}
 
       <div
         className="
@@ -735,6 +881,7 @@ export default function BrewGuide() {
               items-center
             "
           >
+
 
             {/* ======================================================
                 METHOD SELECTOR
@@ -782,6 +929,7 @@ export default function BrewGuide() {
                 Brew Method Selector
               </span>
 
+
               <h3
                 className="
                   text-2xl
@@ -794,6 +942,7 @@ export default function BrewGuide() {
               >
                 Interactive Brew Ratio
               </h3>
+
 
               <p
                 className="
@@ -821,6 +970,7 @@ export default function BrewGuide() {
 
                     <button
                       key={method}
+
                       onClick={() =>
                         setSelectedMethod(method)
                       }
@@ -856,6 +1006,7 @@ export default function BrewGuide() {
                       >
                         {method}
                       </span>
+
 
                       <span
                         className={`
@@ -990,6 +1141,7 @@ export default function BrewGuide() {
                     Target Recipe
                   </span>
 
+
                   <h4
                     className="
                       text-xl
@@ -1002,6 +1154,7 @@ export default function BrewGuide() {
                   </h4>
 
                 </div>
+
 
                 <div
                   className="
@@ -1050,6 +1203,8 @@ export default function BrewGuide() {
                   }}
                 >
 
+                  {/* Recipe Stats */}
+
                   <div
                     className="
                       grid
@@ -1059,6 +1214,7 @@ export default function BrewGuide() {
                       mb-8
                     "
                   >
+
 
                     {/* Coffee Dose */}
 
@@ -1090,6 +1246,7 @@ export default function BrewGuide() {
                         <Sparkles className="w-4 h-4" />
                       </div>
 
+
                       <span
                         className="
                           text-xs
@@ -1103,6 +1260,7 @@ export default function BrewGuide() {
                       >
                         Coffee Dose
                       </span>
+
 
                       <span
                         className="
@@ -1119,7 +1277,7 @@ export default function BrewGuide() {
                     </div>
 
 
-                    {/* Water Volume */}
+                    {/* Water */}
 
                     <div
                       className="
@@ -1137,8 +1295,8 @@ export default function BrewGuide() {
                           w-8
                           h-8
                           rounded-full
-                          bg-sky-500/10
-                          text-sky-600
+                          bg-brewed-brown/10
+                          text-brewed-brown
                           mx-auto
                           flex
                           items-center
@@ -1148,6 +1306,7 @@ export default function BrewGuide() {
                       >
                         <Droplets className="w-4 h-4" />
                       </div>
+
 
                       <span
                         className="
@@ -1162,6 +1321,7 @@ export default function BrewGuide() {
                       >
                         Water Volume
                       </span>
+
 
                       <span
                         className="
@@ -1196,8 +1356,8 @@ export default function BrewGuide() {
                           w-8
                           h-8
                           rounded-full
-                          bg-amber-500/10
-                          text-amber-600
+                          bg-brewed-brown/10
+                          text-brewed-brown
                           mx-auto
                           flex
                           items-center
@@ -1207,6 +1367,7 @@ export default function BrewGuide() {
                       >
                         <Timer className="w-4 h-4" />
                       </div>
+
 
                       <span
                         className="
@@ -1221,6 +1382,7 @@ export default function BrewGuide() {
                       >
                         Brew Time
                       </span>
+
 
                       <span
                         className="
@@ -1259,7 +1421,13 @@ export default function BrewGuide() {
                     "
                   >
 
-                    <div className="flex items-center gap-2">
+                    <div
+                      className="
+                        flex
+                        items-center
+                        gap-2
+                      "
+                    >
 
                       <Thermometer
                         className="
@@ -1280,7 +1448,12 @@ export default function BrewGuide() {
 
                     </div>
 
-                    <div className="text-brewed-muted">
+
+                    <div
+                      className="
+                        text-brewed-muted
+                      "
+                    >
 
                       <span
                         className="
